@@ -17,10 +17,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Micropost::class);
     }
     
+    
+    
     public function loadRelationshipCounts()
     {
-        $this->loadCount('microposts');
+        $this->loadCount(['microposts', 'followings', 'followers']);
     }
+    
+    
     
     
     public function followings()
@@ -29,10 +33,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     
     
+    
+    
     public function followers()
     {
         return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
     }
+    
+    
     
     
     public function follow($userId)
@@ -69,6 +77,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     
     
+    
+    
     public function feed_microposts()
     {
         // このユーザがフォロー中のユーザのidを取得して配列にする
@@ -78,7 +88,12 @@ class User extends Authenticatable implements MustVerifyEmail
         // それらのユーザが所有する投稿に絞り込む
         return Micropost::whereIn('user_id', $userIds);
     }
-
+    
+    
+    
+    
+    
+    
     
     
     /**

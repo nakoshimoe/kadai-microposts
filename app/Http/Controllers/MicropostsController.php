@@ -26,6 +26,7 @@ class MicropostsController extends Controller
         // dashboardビューでそれらを表示
         return view('dashboard', $data);
     }
+
     
     public function store(Request $request)
     {
